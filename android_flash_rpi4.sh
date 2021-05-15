@@ -71,7 +71,7 @@ if version_gt $SFDISK_VERSION "2.26"; then
 EOF
 else
 	sudo sfdisk --unit M /dev/${DRIVE} << EOF
-,64,0x0c,*
+,128M,0x0c,*
 ,1024,L,
 ,128M,L,
 ,,L,
