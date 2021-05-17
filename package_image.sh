@@ -8,16 +8,18 @@ fi
 
 if [ -z ${TARGET_PRODUCT} ]; then
 	echo "Please run 'lunch' first"
-	exit
+	exit 1
 fi
 
 if [ -z ${ANDROID_BUILD_TOP}/kernel/arpi/arch/arm64/boot/Image.gz ]; then
 	echo "Kernel is not exist"
+	exit 1
 fi
 
 if [ -z ${ANDROID_BUILD_TOP}/kernel/arpi/arch/arm64/boot/dts/broadcom/bcm2711-rpi-4-b.dtb ] | \
 	[ -z ${ANDROID_BUILD_TOP}/kernel/arpi/arch/arm64/boot/dts/overlays/vc4-kms-v3d-pi4.dtbo ]; then
 	echo "Device tree is not exist"
+	exit 1
 fi
 
 # Create folder contains your image
