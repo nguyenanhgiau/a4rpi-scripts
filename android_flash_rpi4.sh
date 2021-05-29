@@ -91,14 +91,14 @@ sudo mkfs.ext4 -L data ${USER_PART}
 if [ $? -ne 0 ]; then echo "Error: mkfs.ext4"; exit 1; fi
 echo "SUCCESS! Your microSD card has been formatted"
 
-echo "Write system & vendor partition"
+echo "Writing system & vendor partition..."
 sudo dd if=${ANDROID_PRODUCT_OUT}/system.img of=${SYSTEM_PART} bs=1M
 if [ $? != 0 ]; then echo "ERROR"; exit; fi
 
 sudo dd if=${ANDROID_PRODUCT_OUT}/vendor.img of=${VENDOR_PART} bs=1M
 if [ $? != 0 ]; then echo "ERROR"; exit; fi
 
-echo "Copy kernel & ramdisk to BOOT partition"
+echo "Copying kernel & ramdisk to BOOT partition..."
 sudo mount ${BOOT_PART} /mnt
 if [ $? != 0 ]; then echo "ERROR"; exit; fi
 
