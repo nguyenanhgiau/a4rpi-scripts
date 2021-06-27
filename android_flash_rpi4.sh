@@ -65,14 +65,14 @@ SFDISK_VERSION=`sfdisk --version | awk '{print $4}'`
 if version_gt $SFDISK_VERSION "2.26"; then
 	sudo sfdisk /dev/${DRIVE} << EOF
 ,128M,0x0c,*
-,1024M,L,
+,1600M,L,
 ,128M,L,
 ,,L,
 EOF
 else
 	sudo sfdisk --unit M /dev/${DRIVE} << EOF
 ,128M,0x0c,*
-,1024,L,
+,1600M,L,
 ,128M,L,
 ,,L,
 EOF
