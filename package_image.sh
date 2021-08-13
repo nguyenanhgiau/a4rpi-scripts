@@ -22,10 +22,22 @@ cp --parents out/target/product/rpi4/vendor.img ${PACKAGE_IMG_DIR}
 cp --parents out/target/product/rpi4/ramdisk.img ${PACKAGE_IMG_DIR}
 echo "Copying kernel image..."
 cp --parents -r device/arpi/rpi4/boot/ ${PACKAGE_IMG_DIR}
-cp --parents scripts/kernel-android-S/arpi/arch/arm64/boot/Image.gz ${PACKAGE_IMG_DIR}
-cp --parents scripts/kernel-android-S/arpi/arch/arm64/boot/dts/broadcom/bcm2711-rpi-*.dtb ${PACKAGE_IMG_DIR}
-mkdir ${PACKAGE_IMG_DIR}/overlays
-cp --parents scripts/kernel-android-S/arpi/arch/arm64/boot/dts/overlays/vc4-kms-v3d-pi4.dtbo ${PACKAGE_IMG_DIR}
+if [ -z ${KERNEL_DIR} ]; then
+	echo "Copy kernel from default"
+	cp --parents scripts/kernel-android-S/arpi/arch/arm64/boot/Image.gz ${PACKAGE_IMG_DIR}
+	cp --parents scripts/kernel-android-S/arpi/arch/arm64/boot/dts/broadcom/bcm2711-rpi-*.dtb ${PACKAGE_IMG_DIR}
+	cp --parents scripts/kernel-android-S/arpi/arch/arm64/boot/dts/overlays/vc4-kms-v3d-pi4.dtbo ${PACKAGE_IMG_DIR}
+else
+	echo "Copy kernel from $KERNEL_DIR"
+	mkdir -p ${PACKAGE_IMG_DIR}/scripts/kernel-android-S/arpi/arch/arm64/boot/
+	cp ${KERNEL_DIR}/out/arpi-5.10/dist/Image.gz ${PACKAGE_IMG_DIR}/scripts/kernel-android-S/arpi/arch/arm64/boot/
+
+	mkdir -p ${PACKAGE_IMG_DIR}/scripts/kernel-android-S/arpi/arch/arm64/boot/dts/broadcom/
+	cp ${KERNEL_DIR}/out/arpi-5.10/dist/bcm2711-rpi-*.dtb ${PACKAGE_IMG_DIR}/scripts/kernel-android-S/arpi/arch/arm64/boot/dts/broadcom/
+
+	mkdir -p ${PACKAGE_IMG_DIR}/scripts/kernel-android-S/arpi/arch/arm64/boot/dts/overlays/
+	cp ${KERNEL_DIR}/out/arpi-5.10/dist/vc4-kms-v3d-pi4.dtbo ${PACKAGE_IMG_DIR}/scripts/kernel-android-S/arpi/arch/arm64/boot/dts/overlays/
+fi
 
 echo "Copying script flash for rpi4"
 sed '2 a ANDROID_BUILD_TOP=.\nANDROID_PRODUCT_OUT=./out/target/product/rpi4\nTARGET_PRODUCT=rpi4' ${ANDROID_BUILD_TOP}/scripts/android_flash_rpi4.sh \

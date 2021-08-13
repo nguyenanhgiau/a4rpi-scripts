@@ -105,15 +105,29 @@ if [ $? != 0 ]; then echo "ERROR"; exit; fi
 sudo cp ${ANDROID_BUILD_TOP}/device/arpi/rpi4/boot/* /mnt
 if [ $? != 0 ]; then echo "ERROR"; exit; fi
 
-sudo cp ${ANDROID_BUILD_TOP}/scripts/kernel-android-S/arpi/arch/arm64/boot/Image.gz /mnt
-if [ $? != 0 ]; then echo "ERROR"; exit; fi
+if [ -z ${KERNEL_DIR} ]; then
+	echo "Copy kernel from default"
+	sudo cp ${ANDROID_BUILD_TOP}/scripts/kernel-android-S/arpi/arch/arm64/boot/Image.gz /mnt
+	if [ $? != 0 ]; then echo "ERROR"; exit; fi
 
-sudo cp ${ANDROID_BUILD_TOP}/scripts/kernel-android-S/arpi/arch/arm64/boot/dts/broadcom/bcm2711-rpi-4-b.dtb /mnt
-if [ $? != 0 ]; then echo "ERROR"; exit; fi
+	sudo cp ${ANDROID_BUILD_TOP}/scripts/kernel-android-S/arpi/arch/arm64/boot/dts/broadcom/bcm2711-rpi-*.dtb /mnt
+	if [ $? != 0 ]; then echo "ERROR"; exit; fi
 
-sudo mkdir /mnt/overlays
-sudo cp ${ANDROID_BUILD_TOP}/scripts/kernel-android-S/arpi/arch/arm64/boot/dts/overlays/vc4-kms-v3d-pi4.dtbo /mnt/overlays
-if [ $? != 0 ]; then echo "ERROR"; exit; fi
+	sudo mkdir /mnt/overlays
+	sudo cp ${ANDROID_BUILD_TOP}/scripts/kernel-android-S/arpi/arch/arm64/boot/dts/overlays/vc4-kms-v3d-pi4.dtbo /mnt/overlays
+	if [ $? != 0 ]; then echo "ERROR"; exit; fi
+else
+	echo "Copy kernel from $KERNEL_DIR"
+	sudo cp ${KERNEL_DIR}/out/arpi-5.10/dist/Image.gz /mnt
+	if [ $? != 0 ]; then echo "ERROR"; exit; fi
+
+	sudo cp ${KERNEL_DIR}/out/arpi-5.10/dist/bcm2711-rpi-*.dtb /mnt
+	if [ $? != 0 ]; then echo "ERROR"; exit; fi
+
+	sudo mkdir /mnt/overlays
+	sudo cp ${KERNEL_DIR}/out/arpi-5.10/dist/vc4-kms-v3d-pi4.dtbo /mnt/overlays
+	if [ $? != 0 ]; then echo "ERROR"; exit; fi
+fi
 
 sudo cp ${ANDROID_PRODUCT_OUT}/ramdisk.img /mnt
 if [ $? != 0 ]; then echo "ERROR"; exit; fi
