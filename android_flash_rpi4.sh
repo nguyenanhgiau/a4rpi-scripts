@@ -108,7 +108,7 @@ if [ $? != 0 ]; then echo "ERROR"; exit; fi
 sudo cp ${ANDROID_BUILD_TOP}/kernel/arpi/arch/arm64/boot/Image.gz /mnt
 if [ $? != 0 ]; then echo "ERROR"; exit; fi
 
-sudo cp ${ANDROID_BUILD_TOP}/kernel/arpi/arch/arm64/boot/dts/broadcom/bcm2711-rpi-4-b.dtb /mnt
+sudo cp ${ANDROID_BUILD_TOP}/kernel/arpi/arch/arm64/boot/dts/broadcom/bcm2711-rpi-*.dtb /mnt
 if [ $? != 0 ]; then echo "ERROR"; exit; fi
 
 sudo mkdir /mnt/overlays
