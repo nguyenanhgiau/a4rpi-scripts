@@ -83,11 +83,11 @@ if [ $? -ne 0 ]; then echo "Error: sdfisk"; exit 1; fi
 sudo mkfs.vfat -F 32 -n boot ${BOOT_PART}
 if [ $? -ne 0 ]; then echo "Error: mkfs.vfat"; exit 1; fi
 # Format p2,3,4 with ext4
-sudo mkfs.ext4 -L system ${SYSTEM_PART}
+yes | sudo mkfs.ext4 -L system ${SYSTEM_PART}
 if [ $? -ne 0 ]; then echo "Error: mkfs.ext4"; exit 1; fi
-sudo mkfs.ext4 -L vendor ${VENDOR_PART}
+yes | sudo mkfs.ext4 -L vendor ${VENDOR_PART}
 if [ $? -ne 0 ]; then echo "Error: mkfs.ext4"; exit 1; fi
-sudo mkfs.ext4 -L data ${USER_PART}
+yes | sudo mkfs.ext4 -L data ${USER_PART}
 if [ $? -ne 0 ]; then echo "Error: mkfs.ext4"; exit 1; fi
 echo "SUCCESS! Your microSD card has been formatted"
 
