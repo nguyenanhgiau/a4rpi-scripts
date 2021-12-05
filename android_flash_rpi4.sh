@@ -105,14 +105,16 @@ if [ $? != 0 ]; then echo "ERROR"; exit; fi
 sudo cp ${ANDROID_BUILD_TOP}/device/arpi/rpi4/boot/* /mnt
 if [ $? != 0 ]; then echo "ERROR"; exit; fi
 
-sudo cp ${ANDROID_BUILD_TOP}/kernel/arpi/arch/arm64/boot/Image.gz /mnt
+sudo cp ${ANDROID_BUILD_TOP}/kernel/arpi/arch/arm64/boot/Image /mnt/kernel8.img
 if [ $? != 0 ]; then echo "ERROR"; exit; fi
 
-sudo cp ${ANDROID_BUILD_TOP}/kernel/arpi/arch/arm64/boot/dts/broadcom/bcm2711-rpi-*.dtb /mnt
+sudo cp ${ANDROID_BUILD_TOP}/kernel/arpi/arch/arm64/boot/dts/broadcom/*.dtb /mnt
+sudo cp ${ANDROID_BUILD_TOP}/device/arpi/rpi4/boot/boot.scr.uimg /mnt
+sudo cp ${ANDROID_BUILD_TOP}/device/arpi/rpi4/boot/tpm-soft-spi.dtbo /mnt
 if [ $? != 0 ]; then echo "ERROR"; exit; fi
 
 sudo mkdir /mnt/overlays
-sudo cp ${ANDROID_BUILD_TOP}/kernel/arpi/arch/arm64/boot/dts/overlays/vc4-kms-v3d-pi4.dtbo /mnt/overlays
+sudo cp ${ANDROID_BUILD_TOP}/kernel/arpi/arch/arm64/boot/dts/overlays/*.dtb* /mnt/overlays
 if [ $? != 0 ]; then echo "ERROR"; exit; fi
 
 sudo cp ${ANDROID_BUILD_TOP}/out/target/product/rpi4/ramdisk.img /mnt
